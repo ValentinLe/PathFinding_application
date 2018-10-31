@@ -23,6 +23,27 @@ export class Board {
     return this.grid[y][x];
   }
 
+  isInIndex(x, y) {
+    return 0<=x && x<this.width && 0<=y && y<this.height;
+  }
+
+  // recupere les voisins dans la portée range de la case (x,y), si withWall = true
+  // alors on a tous les voisins sinon on a que les voisins qui ne sont pas des murs
+  consvois(x, y, range, withWall) {
+    let neighbors = [];
+    for (let j = y-range; j<(y + range + 1); j++) {
+      for (let i = x-range; i<(x + range + 1); i++) {
+        if (this.isInIndex(i,j)) {
+          let tile = this.grid[j][i];
+          if (withWall || !tile.isWall()) {
+            neighbors.push(tile);
+          }
+        }
+      }
+    }
+    return neighbors;
+  }
+
   toString() {
     let ch = "";
     for (let j = 0; j < this.height; j++) {

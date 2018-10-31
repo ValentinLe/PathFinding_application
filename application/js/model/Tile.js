@@ -4,7 +4,7 @@ export class Tile {
     this.x = x;
     this.y = y;
     // variable si c'est un obstacle
-    this.isWall = false;
+    this.wall = false;
     this.value = Number.MAX_VALUE;
   }
 
@@ -17,11 +17,11 @@ export class Tile {
   }
 
   isWall() {
-    return this.isWall;
+    return this.wall;
   }
 
   setWall(newState) {
-    this.isWall = newState;
+    this.wall = newState;
   }
 
   getValue() {
@@ -30,6 +30,10 @@ export class Tile {
 
   setValue(value) {
     this.value = value;
+  }
+
+  static is(tile1, tile2) {
+    return tile1.getX()==tile2.getX() && tile1.getY()==tile2.getY();
   }
 
   // distance euclidienne entre 2 cases
@@ -43,7 +47,7 @@ export class Tile {
   }
 
   toString() {
-    if (this.isWall) {
+    if (this.wall) {
       return "#";
     } else {
       return ".";
