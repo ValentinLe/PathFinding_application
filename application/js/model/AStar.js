@@ -12,11 +12,12 @@ export class AStar {
   weightAStar(moveCost, weight) {
     let open = new PriorityQueue();
     open.add(this.initialTile);
-    let distance = {}; // tile : int
+    console.log(open);
+    let distance = new Map(); // tile : int
     this.initialTile.setValue(0);
-    distance[this.initialTile] = 0;
-    let father = {}; // tile : tile
-    father[this.initialTile] = null;
+    distance.set(this.initialTile, 0);
+    let father = new Map(); // tile : tile
+    father.set(this.initialTile, null);
     while (!open.isEmpty()) {
       let tile = open.remove();
       if (Tile.is(tile, this.goalTile)) {
@@ -26,12 +27,12 @@ export class AStar {
         for (let i = 0; i<neighbors.length; i++) {
           let next = neighbors[i];
           if (!(this.tileInMap(distance, next))) {
-            distance[next] = Number.MAX_VALUE;
+            distance.set(next, Number.MAX_VALUE);
           }
-          if (distance[next] < distance[tile] + moveCost) {
-            distance[next] = distance[tile] + moveCost;
-            next.setValue(distance[next] + weight * Tile.distance(next, this.goalTile));
-            father[next] = tile;
+          if (distance.get(next) > distance.get(tile) + moveCost) {
+            distance.set(next, distance.get(tile) + moveCost);
+            next.setValue(distance.get(next) + weight * Tile.distance(next, this.goalTile));
+            father.set(next, tile);
             open.add(next);
           }
         }
@@ -41,10 +42,8 @@ export class AStar {
   }
 
   tileInMap(map, tile) {
-    console.log(map);
-    for(let keyTile in map) {
-      console.log(keyTile.getX() + " " + keyTile.getY());
-      if (Tile.is(tile, tile)) {
+    for(let keyTile of map.keys()) {
+      if (Tile.is(tile, keyTile)) {
         return true;
       }
     }
@@ -55,7 +54,7 @@ export class AStar {
     let plan = [];
     while (goal != null) {
       plan.push(goal);
-      goal = father[goal];
+      goal = father.get(goal);
     }
     return plan;
   }

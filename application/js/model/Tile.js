@@ -6,6 +6,7 @@ export class Tile {
     // variable si c'est un obstacle
     this.wall = false;
     this.value = Number.MAX_VALUE;
+    this.browsed = false;
   }
 
   getX() {
@@ -32,6 +33,14 @@ export class Tile {
     this.value = value;
   }
 
+  getBrowsed() {
+    return this.browsed;
+  }
+
+  setBrowsed(newState) {
+    this.browsed = newState;
+  }
+
   static is(tile1, tile2) {
     return tile1.getX()==tile2.getX() && tile1.getY()==tile2.getY();
   }
@@ -49,6 +58,8 @@ export class Tile {
   toString() {
     if (this.wall) {
       return "#";
+    } else if (this.browsed) {
+      return "+";
     } else {
       return ".";
     }

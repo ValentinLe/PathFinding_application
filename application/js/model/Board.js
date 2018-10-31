@@ -45,8 +45,13 @@ export class Board {
   }
 
   toString() {
-    let ch = "";
+    let ch = "  ";
+    for (let k = 0; k<this.width; k++) {
+      ch += k + " ";
+    }
+    ch += "\n";
     for (let j = 0; j < this.height; j++) {
+      ch += j + " ";
       for (let i = 0; i < this.width; i++) {
         ch += this.grid[j][i].toString() + " ";
       }
