@@ -5,10 +5,10 @@ export class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.grid = this.initGrid(width, height);
+    this.grid = Board.initGrid(width, height);
   }
 
-  initGrid(width, height) {
+  static initGrid(width, height) {
     let newGrid = [];
     for (let j = 0; j < height; j++) {
       newGrid[j] = [];
@@ -17,6 +17,10 @@ export class Board {
       }
     }
     return newGrid;
+  }
+
+  getTileAt(x, y) {
+    return this.grid[y][x];
   }
 
   toString() {
