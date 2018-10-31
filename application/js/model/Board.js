@@ -55,11 +55,12 @@ export class Board {
   toString() {
     let ch = "  ";
     for (let k = 0; k<this.width; k++) {
+      // numerotation superieur
       ch += k + " ";
     }
     ch += "\n";
     for (let j = 0; j < this.height; j++) {
-      ch += j + " ";
+      ch += j + " "; // numerotation du coté
       for (let i = 0; i < this.width; i++) {
         ch += this.grid[j][i].toString() + " ";
       }

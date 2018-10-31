@@ -10,7 +10,7 @@ export class View {
   findSizeTile(width, height) {
     let x = Math.floor(width/this.board.getWidth());
     let y = Math.floor(height/this.board.getHeight());
-    return Math.min(x,y);
+    return Math.min(x, y);
   }
 
   paintTile(tile) {
@@ -19,18 +19,17 @@ export class View {
     let ctx = this.ctx;
     ctx.beginPath();
     if (tile.isWall()) {
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "#000000";
     } else {
-      ctx.fillStyle = "red";
+      ctx.fillStyle = "#FF0000";
     }
-    ctx.fillRect(x, y, this.sizeTile, this.sizeTile);
-    ctx.fill();
+    ctx.fillRect(x, y, this.sizeTile-1, this.sizeTile-1);
     ctx.closePath();
-
   }
 
   paintGrid() {
     let g = this.board.grid;
+    this.ctx.scale(0.4,0.4);
     for (let j = 0; j<this.board.getHeight(); j++) {
       for (let i = 0; i<this.board.getWidth(); i++) {
         this.paintTile(g[j][i]);

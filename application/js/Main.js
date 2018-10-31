@@ -31,6 +31,9 @@ function main() {
   }
   //console.log(b.toString());
   let canvas = document.getElementById("canvas");
+  let html = document.getElementsByTagName("html")[0];
+  canvas.style.width = (window.innerWidth-13) + "px";
+  canvas.style.height = (window.innerHeight-13) + "px";
   let view = new View(canvas, b);
   view.paintGrid();
 
