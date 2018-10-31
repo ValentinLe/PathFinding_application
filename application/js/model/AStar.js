@@ -12,7 +12,6 @@ export class AStar {
   weightAStar(moveCost, weight) {
     let open = new PriorityQueue();
     open.add(this.initialTile);
-    console.log(open);
     let distance = new Map(); // tile : int
     this.initialTile.setValue(0);
     distance.set(this.initialTile, 0);
@@ -31,7 +30,7 @@ export class AStar {
           }
           if (distance.get(next) > distance.get(tile) + moveCost) {
             distance.set(next, distance.get(tile) + moveCost);
-            next.setValue(distance.get(next) + weight * Tile.distance(next, this.goalTile));
+            next.setValue(distance.get(next) + weight * Tile.manhattanDistance(next, this.goalTile));
             father.set(next, tile);
             open.add(next);
           }
@@ -56,6 +55,7 @@ export class AStar {
       plan.push(goal);
       goal = father.get(goal);
     }
+    plan.reverse();
     return plan;
   }
 }

@@ -19,6 +19,14 @@ export class Board {
     return newGrid;
   }
 
+  getWidth() {
+    return this.width;
+  }
+
+  getHeight() {
+    return this.height;
+  }
+
   getTileAt(x, y) {
     return this.grid[y][x];
   }
