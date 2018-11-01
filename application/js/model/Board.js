@@ -31,6 +31,14 @@ export class Board {
     return this.grid[y][x];
   }
 
+  setWallTile(tile) {
+    if (tile.isWall()) {
+      tile.setWall(false);
+    } else {
+      tile.setWall(true);
+    }
+  }
+
   isInIndex(x, y) {
     return 0<=x && x<this.width && 0<=y && y<this.height;
   }

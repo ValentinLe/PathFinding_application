@@ -1,22 +1,19 @@
 
 export class View {
-  constructor(board, canvas) {
+  constructor(board, canvas, sizeTile) {
     this.board = board;
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
-    this.sizeTile = this.findSizeTile(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.sizeTile = sizeTile;
   }
 
-  findSizeTile(width, height) {
-    let x = Math.floor(width/this.board.getWidth());
-    let y = Math.floor(height/this.board.getHeight());
-    return Math.min(x, y);
-  }
+
 
   paintTile(tile, color) {
     let x = tile.getX() * this.sizeTile;
     let y = tile.getY() * this.sizeTile;
     let ctx = this.ctx;
+    ctx.fillStyle = "black";
     if (tile.isWall() || typeof color!=='undefined') {
       ctx.fillStyle = color;
       ctx.fillRect(x, y, this.sizeTile, this.sizeTile);
