@@ -30,10 +30,12 @@ function main() {
     b.grid[y][x].setBrowsed(true);
   }
   //console.log(b.toString());
-  let canvas = document.getElementById("canvas");
   let html = document.getElementsByTagName("html")[0];
-  canvas.style.width = (window.innerWidth-13) + "px";
-  canvas.style.height = (window.innerHeight-13) + "px";
+  let widthWin = window.innerWidth-13;
+  let heightWin = window.innerHeight-13;
+  let canvas = document.getElementById("canvas");
+  canvas.setAttribute("width", widthWin + "px");
+  canvas.setAttribute("height", heightWin + "px");
   let view = new View(canvas, b);
   view.paintGrid();
 

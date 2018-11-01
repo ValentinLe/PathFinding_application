@@ -17,19 +17,16 @@ export class View {
     let x = tile.getX() * this.sizeTile;
     let y = tile.getY() * this.sizeTile;
     let ctx = this.ctx;
-    ctx.beginPath();
     if (tile.isWall()) {
       ctx.fillStyle = "#000000";
     } else {
       ctx.fillStyle = "#FF0000";
     }
     ctx.fillRect(x, y, this.sizeTile-1, this.sizeTile-1);
-    ctx.closePath();
   }
 
   paintGrid() {
     let g = this.board.grid;
-    this.ctx.scale(0.4,0.4);
     for (let j = 0; j<this.board.getHeight(); j++) {
       for (let i = 0; i<this.board.getWidth(); i++) {
         this.paintTile(g[j][i]);
