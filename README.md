@@ -1,4 +1,4 @@
-# SearchPath_application
+# PathFinding_application
 
 Une application web permettant de simuler une recherche de chemin en utilisant l'algorithme A*.
 
