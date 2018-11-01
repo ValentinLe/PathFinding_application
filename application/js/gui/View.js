@@ -1,6 +1,6 @@
 
 export class View {
-  constructor(canvas, board) {
+  constructor(board, canvas) {
     this.board = board;
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");

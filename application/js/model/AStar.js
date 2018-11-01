@@ -9,6 +9,22 @@ export class AStar {
     this.goalTile = goalTile;
   }
 
+  getInitialTile() {
+    return this.initialTile;
+  }
+
+  getGoalTile() {
+    return this.goalTile;
+  }
+
+  setInitialTile(newTile) {
+    this.initialTile = newTile;
+  }
+
+  setGoalTile(newTile) {
+    this.goalTile = newTile;
+  }
+
   weightAStar(moveCost, weight) {
     let open = new PriorityQueue();
     open.add(this.initialTile);
