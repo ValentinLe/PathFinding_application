@@ -13,16 +13,17 @@ export class View {
     return Math.min(x, y);
   }
 
-  paintTile(tile) {
+  paintTile(tile, color) {
     let x = tile.getX() * this.sizeTile;
     let y = tile.getY() * this.sizeTile;
     let ctx = this.ctx;
-    if (tile.isWall()) {
-      ctx.fillStyle = "#000000";
-    } else {
-      ctx.fillStyle = "#FF0000";
+    if (tile.isWall() || typeof color!=='undefined') {
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, this.sizeTile, this.sizeTile);
     }
-    ctx.fillRect(x, y, this.sizeTile-1, this.sizeTile-1);
+    ctx.lineWidth = "1";
+    ctx.rect(x, y, this.sizeTile, this.sizeTile);
+    ctx.stroke();
   }
 
   paintGrid() {

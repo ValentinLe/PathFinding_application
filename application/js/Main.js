@@ -8,7 +8,7 @@ import {View} from './gui/View.js';
 window.onload = main;
 
 function main() {
-  let b = new Board(10,10);
+  let b = new Board(52,25);
   b.getTileAt(4,0).setWall(true);
   b.getTileAt(4,1).setWall(true);
   b.getTileAt(4,2).setWall(true);
@@ -38,5 +38,6 @@ function main() {
   canvas.setAttribute("height", heightWin + "px");
   let view = new View(canvas, b);
   view.paintGrid();
-
+  view.paintTile(new Tile(15,20), "green");
+  view.paintTile(new Tile(50,2), "red");
 }
