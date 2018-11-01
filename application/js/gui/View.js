@@ -24,10 +24,15 @@ export class View {
   }
 
   paintGrid() {
-    let g = this.board.grid;
+    let b = this.board;
     for (let j = 0; j<this.board.getHeight(); j++) {
       for (let i = 0; i<this.board.getWidth(); i++) {
-        this.paintTile(g[j][i]);
+        let tile = b.getTileAt(i,j);
+        if (tile.isWall()) {
+          this.paintTile(tile, "black");
+        } else {
+          this.paintTile(tile, "white");
+        }
       }
     }
   }

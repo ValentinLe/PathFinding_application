@@ -6,7 +6,6 @@ export class Tile {
     // variable si c'est un obstacle
     this.wall = false;
     this.value = Number.MAX_VALUE;
-    this.browsed = false;
   }
 
   getX() {
@@ -31,14 +30,6 @@ export class Tile {
 
   setValue(value) {
     this.value = value;
-  }
-
-  getBrowsed() {
-    return this.browsed;
-  }
-
-  setBrowsed(newState) {
-    this.browsed = newState;
   }
 
   static is(tile1, tile2) {

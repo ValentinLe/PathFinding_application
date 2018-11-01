@@ -46,7 +46,7 @@ export class AStar {
           }
           if (distance.get(next) > distance.get(tile) + moveCost) {
             distance.set(next, distance.get(tile) + moveCost);
-            next.setValue(distance.get(next) + weight * Tile.manhattanDistance(next, this.goalTile));
+            next.setValue(distance.get(next) + weight * Tile.distance(next, this.goalTile));
             father.set(next, tile);
             open.add(next);
           }

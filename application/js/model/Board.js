@@ -49,7 +49,7 @@ export class Board {
     let neighbors = [];
     for (let j = y-range; j<(y + range + 1); j++) {
       for (let i = x-range; i<(x + range + 1); i++) {
-        if (this.isInIndex(i,j)) {
+        if ((i==x || j==y) && this.isInIndex(i,j)) {
           let tile = this.grid[j][i];
           if (withWall || !tile.isWall()) {
             neighbors.push(tile);
