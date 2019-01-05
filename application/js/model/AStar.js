@@ -18,12 +18,14 @@ export class AStar {
     father.set(this.initTile, null);
     while (!open.isEmpty()) {
       let tile = open.remove();
+      tile.setState(1);
       if (tile.equals(this.goalTile)) {
         return this.getPlan(father, tile);
       } else {
         let neighbors = this.board.consvois(tile.getX(), tile.getY(), 1, false);
         for (let i = 0; i<neighbors.length; i++) {
           let next = neighbors[i];
+          next.setState(2);
           if (!(this.tileInMap(distance, next))) {
             distance.set(next, Number.MAX_VALUE);
           }
@@ -52,6 +54,7 @@ export class AStar {
     let plan = [];
     while (goal != null) {
       plan.push(goal);
+      goal.setState(3);
       goal = father.get(goal);
     }
     plan.reverse();

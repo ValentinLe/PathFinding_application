@@ -43,15 +43,27 @@ export class Board {
     return this.grid[y][x];
   }
 
-  addTarget(tile) {
+  modifyTileAt(x, y) {
+    let tile = this.getTileAt(x, y);
     if (this.targets.length < 2) {
-      if (this.initTile == null) {
-        this.initTile = tile;
-      } else if (this.goalTile == null) {
-        this.goalTile = tile;
-      }
-      this.targets.push(tile);
+      this.addTarget(tile);
+    } else if (tile.equals(this.initTile) || tile.equals(this.goalTile)) {
+        this.removeTarget(tile);
+    } else {
+      this.switchWallTile(tile);
+      console.log(tile.isWall());
     }
+  }
+
+  addTarget(tile) {
+    if (this.initTile == null) {
+      this.initTile = tile;
+    } else if (this.goalTile == null) {
+      this.goalTile = tile;
+    }
+    tile.setWall(false);
+    this.targets.push(tile);
+    tile.objectif = true;
   }
 
   removeTarget(tile) {
@@ -61,6 +73,7 @@ export class Board {
     } else if (this.goalTile != null && tile.equals(this.goalTile)) {
       this.goalTile = null;
     }
+    tile.objectif = false;
     this.targets.splice(i, 1);
   }
 
@@ -68,7 +81,7 @@ export class Board {
     return this.initTile && this.goalTile;
   }
 
-  setWallTile(tile) {
+  switchWallTile(tile) {
     if (tile.isWall()) {
       tile.setWall(false);
     } else {

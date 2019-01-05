@@ -6,6 +6,8 @@ export class Tile {
     // variable si c'est un obstacle
     this.wall = false;
     this.value = Number.MAX_VALUE;
+    this.objectif = false;
+    this.state = 0;
   }
 
   getX() {
@@ -36,23 +38,27 @@ export class Tile {
     return this.getX()==o.getX() && this.getY()==o.getY();
   }
 
+  setState(value) {
+    this.state = value;
+  }
+
   // distance euclidienne entre 2 cases
   distance(o) {
     return Math.sqrt(Math.pow(o.getX() - this.getX(), 2) + Math.pow(o.getY() - this.getY(), 2));
   }
 
   // distance de manhattan entre 2 cases
-  static manhattanDistance(o) {
+  manhattanDistance(o) {
     return Math.abs(o.getY() - this.getY()) + Math.abs(o.getX() - this.getX());
   }
 
   toStringGrid() {
     if (this.wall) {
       return "#";
-    } else if (this.browsed) {
-      return "+";
+    } else if (this.objectif) {
+      return "X";
     } else {
-      return ".";
+      return "" + this.state;
     }
   }
 
