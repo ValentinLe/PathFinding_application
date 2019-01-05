@@ -9,7 +9,30 @@ export class Board {
     this.grid = this.initGrid(width, height);
     this.initTile = null;
     this.goalTile = null;
-    this.targets = [];
+  }
+
+  getWidth() {
+    return this.width;
+  }
+
+  setWidth(width) {
+    this.width = width;
+  }
+
+  getHeight() {
+    return this.height;
+  }
+
+  setHeight(height) {
+    this.height = height;
+  }
+
+  getInitTile() {
+    return this.initTile;
+  }
+
+  getGoalTile() {
+    return this.goalTile;
   }
 
   initGrid(width, height) {
@@ -23,20 +46,14 @@ export class Board {
     return newGrid;
   }
 
-  getWidth() {
-    return this.width;
-  }
-
-  getHeight() {
-    return this.height;
-  }
-
-  getInitTile() {
-    return this.initTile;
-  }
-
-  getGoalTile() {
-    return this.goalTile;
+  initStates() {
+    let tile;
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        tile = this.getTileAt(i, j);
+        tile.setState(0);
+      }
+    }
   }
 
   getTileAt(x, y) {
@@ -45,13 +62,15 @@ export class Board {
 
   modifyTileAt(x, y) {
     let tile = this.getTileAt(x, y);
-    if (this.targets.length < 2) {
+    if (!this.targetsPlaced()) {
+      // si au moins un des objectifs n'est pas place
       this.addTarget(tile);
-    } else if (tile.equals(this.initTile) || tile.equals(this.goalTile)) {
-        this.removeTarget(tile);
+    } else if (this.isTarget(tile)) {
+      // si la tile est un objectfs
+      this.removeTarget(tile);
     } else {
-      this.switchWallTile(tile);
-      console.log(tile.isWall());
+      // place un mur
+      tile.switchWall();
     }
   }
 
@@ -62,35 +81,28 @@ export class Board {
       this.goalTile = tile;
     }
     tile.setWall(false);
-    this.targets.push(tile);
-    tile.objectif = true;
+    tile.setTarget(true);
   }
 
   removeTarget(tile) {
-    let i = this.targets.indexOf(tile);
     if (this.initTile != null && tile.equals(this.initTile)) {
       this.initTile = null;
     } else if (this.goalTile != null && tile.equals(this.goalTile)) {
       this.goalTile = null;
     }
-    tile.objectif = false;
-    this.targets.splice(i, 1);
+    tile.setTarget(false);
+  }
+
+  isTarget(tile) {
+    return tile.equals(this.initTile) || tile.equals(this.goalTile);
   }
 
   targetsPlaced() {
     return this.initTile && this.goalTile;
   }
 
-  switchWallTile(tile) {
-    if (tile.isWall()) {
-      tile.setWall(false);
-    } else {
-      tile.setWall(true);
-    }
-  }
-
   isInIndex(x, y) {
-    return 0<=x && x<this.width && 0<=y && y<this.height;
+    return 0 <= x && x<this.width && 0 <=y && y<this.height;
   }
 
   // recupere les voisins dans la portée range de la case (x,y), si withWall = true
@@ -101,7 +113,7 @@ export class Board {
       for (let i = x-range; i<(x + range + 1); i++) {
         if (this.isInIndex(i,j)) {
           let tile = this.grid[j][i];
-          if (withWall || !tile.isWall()) {
+          if (x != i && y != j && withWall || !tile.isWall()) {
             neighbors.push(tile);
           }
         }
@@ -111,14 +123,14 @@ export class Board {
   }
 
   toString() {
-    let ch = "  ";
+    let ch = "   ";
     for (let k = 0; k<this.width; k++) {
       // numerotation superieur
       ch += k + " ";
     }
-    ch += "\n";
+    ch += "\n\n";
     for (let j = 0; j < this.height; j++) {
-      ch += j + " "; // numerotation du coté
+      ch += j + "  "; // numerotation du coté
       for (let i = 0; i < this.width; i++) {
         ch += this.grid[j][i].toStringGrid() + " ";
       }

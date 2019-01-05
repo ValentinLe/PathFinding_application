@@ -18,15 +18,15 @@ export class AStar {
     father.set(this.initTile, null);
     while (!open.isEmpty()) {
       let tile = open.remove();
-      tile.setState(1);
+      tile.setState(2);
       if (tile.equals(this.goalTile)) {
         return this.getPlan(father, tile);
       } else {
         let neighbors = this.board.consvois(tile.getX(), tile.getY(), 1, false);
         for (let i = 0; i<neighbors.length; i++) {
           let next = neighbors[i];
-          next.setState(2);
           if (!(this.tileInMap(distance, next))) {
+            next.setState(1);
             distance.set(next, Number.MAX_VALUE);
           }
           if (distance.get(next) > distance.get(tile) + moveCost) {

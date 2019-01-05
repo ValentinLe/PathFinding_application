@@ -6,7 +6,7 @@ export class Tile {
     // variable si c'est un obstacle
     this.wall = false;
     this.value = Number.MAX_VALUE;
-    this.objectif = false;
+    this.target = false;
     this.state = 0;
   }
 
@@ -34,13 +34,34 @@ export class Tile {
     this.value = value;
   }
 
-  equals(o) {
-    return this.getX()==o.getX() && this.getY()==o.getY();
+  getState() {
+    return this.state;
   }
 
   setState(value) {
     this.state = value;
   }
+
+  isTarget() {
+    return this.target;
+  }
+
+  setTarget(target) {
+    this.target = target;
+  }
+
+  switchWall() {
+    if (this.isWall()) {
+      this.setWall(false);
+    } else {
+      this.setWall(true);
+    }
+  }
+
+  equals(o) {
+    return this.getX()==o.getX() && this.getY()==o.getY();
+  }
+
 
   // distance euclidienne entre 2 cases
   distance(o) {
@@ -55,8 +76,8 @@ export class Tile {
   toStringGrid() {
     if (this.wall) {
       return "#";
-    } else if (this.objectif) {
-      return "X";
+    } else if (this.target) {
+      return " ";
     } else {
       return "" + this.state;
     }
