@@ -1,41 +1,24 @@
 
 import {PriorityQueue} from '../util/PriorityQueue.js';
-import {Tile} from './Tile.js';
 
 export class AStar {
-  constructor(board, initialTile, goalTile) {
+  constructor(board) {
     this.board = board;
-    this.initialTile = initialTile;
-    this.goalTile = goalTile;
-  }
-
-  getInitialTile() {
-    return this.initialTile;
-  }
-
-  getGoalTile() {
-    return this.goalTile;
-  }
-
-  setInitialTile(newTile) {
-    this.initialTile = newTile;
-  }
-
-  setGoalTile(newTile) {
-    this.goalTile = newTile;
+    this.initTile = board.getInitTile();
+    this.goalTile = board.getGoalTile();
   }
 
   weightAStar(moveCost, weight) {
     let open = new PriorityQueue();
-    open.add(this.initialTile);
+    open.add(this.initTile);
     let distance = new Map(); // tile : int
-    this.initialTile.setValue(0);
-    distance.set(this.initialTile, 0);
+    this.initTile.setValue(0);
+    distance.set(this.initTile, 0);
     let father = new Map(); // tile : tile
-    father.set(this.initialTile, null);
+    father.set(this.initTile, null);
     while (!open.isEmpty()) {
       let tile = open.remove();
-      if (Tile.is(tile, this.goalTile)) {
+      if (tile.equals(this.goalTile)) {
         return this.getPlan(father, tile);
       } else {
         let neighbors = this.board.consvois(tile.getX(), tile.getY(), 1, false);
@@ -46,7 +29,7 @@ export class AStar {
           }
           if (distance.get(next) > distance.get(tile) + moveCost) {
             distance.set(next, distance.get(tile) + moveCost);
-            next.setValue(distance.get(next) + weight * Tile.distance(next, this.goalTile));
+            next.setValue(distance.get(next) + weight * next.distance(this.goalTile));
             father.set(next, tile);
             open.add(next);
           }
@@ -58,7 +41,7 @@ export class AStar {
 
   tileInMap(map, tile) {
     for(let keyTile of map.keys()) {
-      if (Tile.is(tile, keyTile)) {
+      if (tile.equals(keyTile)) {
         return true;
       }
     }

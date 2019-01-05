@@ -3,50 +3,25 @@ import {Tile} from './model/Tile.js';
 import {Board} from './model/Board.js';
 import {PriorityQueue} from './util/PriorityQueue.js';
 import {AStar} from './model/AStar.js';
-import {GuiManager} from './gui/GuiManager.js';
 
 window.onload = main;
 
-let gui;
-
 function main() {
-  let b = new Board(25,12);
-  //console.log(b.toString());
+  let b = new Board(10,10);
+  console.log(b.toString());
 
-  let aStar = new AStar(b, null, null);
+  let t1 = new Tile(2,2);
+  let t2 = new Tile(8,9);
+  let t3 = new Tile(2,2);
+  console.log(t1.equals(t2));
+  console.log(t1.equals(t3));
 
-  //console.log(b.toString());
-  let widthWin = window.innerWidth-13;
-  let heightWin = window.innerHeight-13;
-  let canvas = document.getElementById("canvas");
-  canvas.setAttribute("width", widthWin + "px");
-  canvas.setAttribute("height", heightWin + "px");
-  gui = new GuiManager(b, aStar, canvas);
-  gui.paintView();
+  b.addTarget(t1);
+  b.addTarget(t2);
+  console.log(b.targets);
 
-  document.getElementsByTagName("button")[0].addEventListener('click', function (e) {
-    findSolution(e);
-  });
-
-  canvas.addEventListener('click', function (e) {
-    clickOnCanvas(e);
-  });
-
-}
-
-export function sleep(millis) {
-    var now = Date.now();
-    while(Date.now() < now + millis){}
-}
-
-function findSolution(e) {
-  gui.findSolution();
-}
-
-function clickOnCanvas(e) {
-  let x = Math.floor(e.clientX/gui.getSizeTile());
-  let y = Math.floor(e.clientY/gui.getSizeTile());
-  if (gui.isInIndex(x,y)) {
-    gui.clickAt(x,y);
+  let aStar = new AStar(b);
+  if (b.targetsPlaced()) {
+    console.log(aStar.weightAStar(1,1));
   }
 }

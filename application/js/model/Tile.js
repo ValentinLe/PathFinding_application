@@ -32,21 +32,21 @@ export class Tile {
     this.value = value;
   }
 
-  static is(tile1, tile2) {
-    return tile1.getX()==tile2.getX() && tile1.getY()==tile2.getY();
+  equals(o) {
+    return this.getX()==o.getX() && this.getY()==o.getY();
   }
 
   // distance euclidienne entre 2 cases
-  static distance(tile1, tile2) {
-    return Math.sqrt(Math.pow(tile2.getX() - tile1.getX(), 2) + Math.pow(tile2.getY() - tile1.getY(), 2));
+  distance(o) {
+    return Math.sqrt(Math.pow(o.getX() - this.getX(), 2) + Math.pow(o.getY() - this.getY(), 2));
   }
 
   // distance de manhattan entre 2 cases
-  static manhattanDistance(tile1, tile2) {
-    return Math.abs(tile2.getY() - tile1.getY()) + Math.abs(tile2.getX() - tile1.getX());
+  static manhattanDistance(o) {
+    return Math.abs(o.getY() - this.getY()) + Math.abs(o.getX() - this.getX());
   }
 
-  toString() {
+  toStringGrid() {
     if (this.wall) {
       return "#";
     } else if (this.browsed) {
@@ -54,5 +54,9 @@ export class Tile {
     } else {
       return ".";
     }
+  }
+
+  toString() {
+    return "(" + this.x + ", " + this.y + ")";
   }
 }

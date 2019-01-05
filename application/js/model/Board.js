@@ -2,13 +2,17 @@
 import {Tile} from './Tile.js';
 
 export class Board {
+
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.grid = Board.initGrid(width, height);
+    this.grid = this.initGrid(width, height);
+    this.initTile = null;
+    this.goalTile = null;
+    this.targets = [];
   }
 
-  static initGrid(width, height) {
+  initGrid(width, height) {
     let newGrid = [];
     for (let j = 0; j < height; j++) {
       newGrid[j] = [];
@@ -27,8 +31,41 @@ export class Board {
     return this.height;
   }
 
+  getInitTile() {
+    return this.initTile;
+  }
+
+  getGoalTile() {
+    return this.goalTile;
+  }
+
   getTileAt(x, y) {
     return this.grid[y][x];
+  }
+
+  addTarget(tile) {
+    if (this.targets.length < 2) {
+      if (this.initTile == null) {
+        this.initTile = tile;
+      } else if (this.goalTile == null) {
+        this.goalTile = tile;
+      }
+      this.targets.push(tile);
+    }
+  }
+
+  removeTarget(tile) {
+    let i = this.targets.indexOf(tile);
+    if (this.initTile != null && tile.equals(this.initTile)) {
+      this.initTile = null;
+    } else if (this.goalTile != null && tile.equals(this.goalTile)) {
+      this.goalTile = null;
+    }
+    this.targets.splice(i, 1);
+  }
+
+  targetsPlaced() {
+    return this.initTile && this.goalTile;
   }
 
   setWallTile(tile) {
@@ -70,7 +107,7 @@ export class Board {
     for (let j = 0; j < this.height; j++) {
       ch += j + " "; // numerotation du coté
       for (let i = 0; i < this.width; i++) {
-        ch += this.grid[j][i].toString() + " ";
+        ch += this.grid[j][i].toStringGrid() + " ";
       }
       ch += "\n";
     }
