@@ -1,5 +1,5 @@
 
-import {PriorityQueue} from '../util/PriorityQueue.js';
+import {PriorityQueue} from '../util/PriorityQueue';
 
 export class AStar {
   constructor(board) {

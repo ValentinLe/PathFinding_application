@@ -1,5 +1,5 @@
 
-import {Tile} from './Tile.js';
+import {Tile} from './Tile';
 
 export class Board {
 
