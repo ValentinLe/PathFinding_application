@@ -1,8 +1,8 @@
 
-import {Tile} from './model/Tile';
-import {Board} from './model/Board';
-import {PriorityQueue} from './util/PriorityQueue';
-import {AStar} from './model/AStar';
+import {Tile} from './model/Tile.js';
+import {Board} from './model/Board.js';
+import {PriorityQueue} from './util/PriorityQueue.js';
+import {AStar} from './model/AStar.js';
 
 window.onload = main;
 
