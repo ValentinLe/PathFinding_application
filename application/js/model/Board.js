@@ -6,7 +6,8 @@ export class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.grid = this.initGrid(width, height);
+    this.grid = [];
+    this.initGrid(width, height);
     this.initTile = null;
     this.goalTile = null;
   }
@@ -35,15 +36,66 @@ export class Board {
     return this.goalTile;
   }
 
-  initGrid(width, height) {
-    let newGrid = [];
-    for (let j = 0; j < height; j++) {
-      newGrid[j] = [];
-      for (let i = 0; i < width; i++) {
-        newGrid[j][i] = new Tile(i,j);
+  setWidth(newWidth) {
+    if (this.width != newWidth) {
+      if (this.width < newWidth) {
+        this.addColumn(newWidth - this.width);
+      } else {
+        this.removeColumn(this.width - newWidth);
       }
     }
-    return newGrid;
+  }
+
+  addColumn(nbColumn) {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = this.width; i < (this.width + nbColumn); i++) {
+        this.grid[j][i] = new Tile(i, j);
+      }
+    }
+  }
+
+  removeColumn(nbColumn) {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = this.width; i >= (this.width - nbColumn); i--) {
+        this.grid[j].splice(i, 1);
+      }
+    }
+  }
+
+  setHeight(newHeight) {
+    if (this.height != newHeight) {
+      if (this.height < newHeight) {
+        this.addLine(newHeight - this.height);
+      } else {
+        this.removeLine(this.height - newHeight);
+      }
+    }
+  }
+
+  addLine(nbLine) {
+    for (let j = 0; j < nbLine; j++) {
+      let coordH = this.height + j;
+      this.grid[coordH] = [];
+      for (let i = 0; i < this.width; i++) {
+        this.grid[coordH][i] = new Tile(i, coordH);
+      }
+    }
+  }
+
+  removeLine(nbLine) {
+    for (let h = this.height; h >= (this.height - nbLine); h--) {
+      this.grid.splice(h, 1);
+    }
+  }
+
+  initGrid(width, height) {
+    this.grid = [];
+    for (let j = 0; j < height; j++) {
+      this.grid[j] = [];
+      for (let i = 0; i < width; i++) {
+        this.grid[j][i] = new Tile(i,j);
+      }
+    }
   }
 
   initStates() {
@@ -64,7 +116,11 @@ export class Board {
     let tile = this.getTileAt(x, y);
     if (!this.targetsPlaced()) {
       // si au moins un des objectifs n'est pas place
-      this.addTarget(tile);
+      if (!this.isTarget(tile)) {
+        this.addTarget(tile);
+      } else {
+        this.changeTarget();
+      }
     } else if (this.isTarget(tile)) {
       // si la tile est un objectfs
       this.removeTarget(tile);
@@ -74,10 +130,22 @@ export class Board {
     }
   }
 
+  changeTarget() {
+    if (this.justOneTargetPlaced()) {
+      if (this.initTile) {
+        this.goalTile = this.initTile;
+        this.initTile = null;
+      } else {
+        this.initTile = this.goalTile;
+        this.goalTile = null;
+      }
+    }
+  }
+
   addTarget(tile) {
-    if (this.initTile == null) {
+    if (!this.initTile) {
       this.initTile = tile;
-    } else if (this.goalTile == null) {
+    } else if (!this.goalTile) {
       this.goalTile = tile;
     }
     tile.setWall(false);
@@ -85,16 +153,20 @@ export class Board {
   }
 
   removeTarget(tile) {
-    if (this.initTile != null && tile.equals(this.initTile)) {
+    if (this.initTile && tile.equals(this.initTile)) {
       this.initTile = null;
-    } else if (this.goalTile != null && tile.equals(this.goalTile)) {
+    } else if (this.goalTile && tile.equals(this.goalTile)) {
       this.goalTile = null;
     }
     tile.setTarget(false);
   }
 
   isTarget(tile) {
-    return tile.equals(this.initTile) || tile.equals(this.goalTile);
+    return (this.initTile && tile.equals(this.initTile)) || (this.goalTile && tile.equals(this.goalTile));
+  }
+
+  justOneTargetPlaced() {
+    return (this.initTile && !this.goalTile) || (!this.initTile && this.goalTile);
   }
 
   targetsPlaced() {

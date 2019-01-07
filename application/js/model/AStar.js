@@ -1,11 +1,21 @@
 
 import {PriorityQueue} from '../util/PriorityQueue.js';
+import {sleep} from '../util/sleep.js';
 
 export class AStar {
-  constructor(board) {
+  constructor(board, delay) {
     this.board = board;
     this.initTile = board.getInitTile();
     this.goalTile = board.getGoalTile();
+    this.delay = delay;
+  }
+
+  getDelay() {
+    return this.delay;
+  }
+
+  setDelay(delay) {
+    this.delay = delay;
   }
 
   weightAStar(moveCost, weight) {
@@ -19,6 +29,9 @@ export class AStar {
     while (!open.isEmpty()) {
       let tile = open.remove();
       tile.setState(2);
+      if (this.delay != 0) {
+        sleep(this.delay);
+      }
       if (tile.equals(this.goalTile)) {
         return this.getPlan(father, tile);
       } else {

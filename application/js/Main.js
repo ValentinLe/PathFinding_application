@@ -20,10 +20,10 @@ function main() {
   console.log(b.initTile);
   console.log(b.goalTile);
 
-  let aStar = new AStar(b);
+  let aStar = new AStar(b,0);
   if (b.targetsPlaced()) {
     console.log(aStar.weightAStar(1,1));
   }
-
-  console.log(b.toString());
+  b.setWidth(2);
+  console.log(b.grid);
 }
