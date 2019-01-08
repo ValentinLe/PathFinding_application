@@ -8,14 +8,14 @@ window.onload = main;
 
 function main() {
   let b = new Board(10,10);
-  b.modifyTileAt(1,1);
-  b.modifyTileAt(1,9);
-  b.modifyTileAt(0,8);
-  b.modifyTileAt(1,8);
-  b.modifyTileAt(2,8);
-  b.modifyTileAt(3,8);
-  b.modifyTileAt(4,8);
-  b.modifyTileAt(5,8);
+  b.addModificationAt(1,1);
+  b.addModificationAt(1,9);
+  b.addModificationAt(0,8);
+  b.addModificationAt(1,8);
+  b.addModificationAt(2,8);
+  b.addModificationAt(3,8);
+  b.addModificationAt(4,8);
+  b.addModificationAt(5,8);
 
   console.log(b.initTile);
   console.log(b.goalTile);
@@ -24,6 +24,5 @@ function main() {
   if (b.targetsPlaced()) {
     console.log(aStar.weightAStar(1,1));
   }
-  b.setWidth(2);
-  console.log(b.grid);
+  console.log(b.toString());
 }

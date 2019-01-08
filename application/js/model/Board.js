@@ -52,6 +52,7 @@ export class Board {
         this.grid[j][i] = new Tile(i, j);
       }
     }
+    this.width += nbColumn;
   }
 
   removeColumn(nbColumn) {
@@ -60,6 +61,7 @@ export class Board {
         this.grid[j].splice(i, 1);
       }
     }
+    this.width -= nbColumn;
   }
 
   setHeight(newHeight) {
@@ -80,12 +82,14 @@ export class Board {
         this.grid[coordH][i] = new Tile(i, coordH);
       }
     }
+    this.height += nbLine;
   }
 
   removeLine(nbLine) {
     for (let h = this.height; h >= (this.height - nbLine); h--) {
       this.grid.splice(h, 1);
     }
+    this.height -= nbLine;
   }
 
   initGrid(width, height) {
@@ -108,25 +112,41 @@ export class Board {
     }
   }
 
+  checkTargetsInIndex() {
+    if (!this.tileInIndex(this.initTile)) {
+      this.initTile = null;
+    }
+    if (!this.tileInIndex(this.goalTile)) {
+      this.goalTile = null;
+    }
+  }
+
   getTileAt(x, y) {
     return this.grid[y][x];
   }
 
-  modifyTileAt(x, y) {
+  addModificationAt(x, y) {
     let tile = this.getTileAt(x, y);
+    let isTarget = this.isTarget(tile);
     if (!this.targetsPlaced()) {
       // si au moins un des objectifs n'est pas place
-      if (!this.isTarget(tile)) {
+      if (!isTarget) {
         this.addTarget(tile);
       } else {
         this.changeTarget();
       }
-    } else if (this.isTarget(tile)) {
-      // si la tile est un objectfs
+    } else if (!isTarget) {
+      tile.setWall(true);
+    }
+  }
+
+  removeModificationAt(x, y) {
+    let tile = this.getTileAt(x, y);
+    let isTarget = this.isTarget(tile);
+    if (isTarget) {
       this.removeTarget(tile);
     } else {
-      // place un mur
-      tile.switchWall();
+      tile.setWall(false);
     }
   }
 
@@ -175,6 +195,10 @@ export class Board {
 
   isInIndex(x, y) {
     return 0 <= x && x<this.width && 0 <=y && y<this.height;
+  }
+
+  tileInIndex(tile) {
+    return this.isInIndex(tile.getX(), tile.getY());
   }
 
   // recupere les voisins dans la portée range de la case (x,y), si withWall = true

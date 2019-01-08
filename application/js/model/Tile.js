@@ -79,7 +79,7 @@ export class Tile {
     } else if (this.target) {
       return " ";
     } else {
-      return "" + (this.state==3 ? "+" : this.state);
+      return "" + (this.state==3 ? "." : this.state);
     }
   }
 
