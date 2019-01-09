@@ -2,8 +2,6 @@
 class AStar {
   constructor(board, delay) {
     this.board = board;
-    this.initTile = board.getInitTile();
-    this.goalTile = board.getGoalTile();
     this.delay = delay;
   }
 
@@ -15,21 +13,30 @@ class AStar {
     this.delay = delay;
   }
 
+  getInitTile() {
+    return this.board.initTile;
+  }
+
+  getGoalTile() {
+    return this.board.goalTile;
+  }
+
   weightAStar(moveCost, weight) {
     let open = new PriorityQueue();
-    open.add(this.initTile);
+    open.add(this.getInitTile());
     let distance = new Map(); // tile : int
-    this.initTile.setValue(0);
-    distance.set(this.initTile, 0);
+    this.getInitTile().setValue(0);
+    distance.set(this.getInitTile(), 0);
     let father = new Map(); // tile : tile
-    father.set(this.initTile, null);
+    father.set(this.getInitTile(), null);
     while (!open.isEmpty()) {
       let tile = open.remove();
       tile.setState(2);
+      this.board.statesChanged = true;
       if (this.delay != 0) {
         sleep(this.delay);
       }
-      if (tile.equals(this.goalTile)) {
+      if (tile.equals(this.getGoalTile())) {
         return this.getPlan(father, tile);
       } else {
         let neighbors = this.board.consvois(tile.getX(), tile.getY(), 1, false);
@@ -41,7 +48,7 @@ class AStar {
           }
           if (distance.get(next) > distance.get(tile) + moveCost) {
             distance.set(next, distance.get(tile) + moveCost);
-            next.setValue(distance.get(next) + weight * next.distance(this.goalTile));
+            next.setValue(distance.get(next) + weight * next.distance(this.getGoalTile()));
             father.set(next, tile);
             open.add(next);
           }

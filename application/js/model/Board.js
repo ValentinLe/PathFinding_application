@@ -8,6 +8,7 @@ class Board {
     this.initGrid(width, height);
     this.initTile = null;
     this.goalTile = null;
+    this.statesChanged = false;
   }
 
   getWidth() {
@@ -98,6 +99,18 @@ class Board {
         this.grid[j][i] = new Tile(i,j);
       }
     }
+  }
+
+  resetGrid() {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        let tile = this.getTileAt(i, j);
+        tile.setWall(false);
+        tile.setState(0);
+      }
+    }
+    this.initTile = null;
+    this.goalTile = null;
   }
 
   initStates() {
