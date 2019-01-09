@@ -57,7 +57,12 @@ function keyPressed() {
     b.resetGrid();
   } else if (key == "Enter") {
     if (b.targetsPlaced()) {
-      ia.weightAStar(1,1);
+      let solution = ia.weightAStar(1,1);
+      if (!solution) {
+        showMessage("No solution found");
+      }
+    } else {
+      showMessage("The algorithme needs two targets")
     }
   }
 }
