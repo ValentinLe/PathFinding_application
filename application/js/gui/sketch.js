@@ -1,21 +1,9 @@
 
-
 let b = new Board(20,10);
 let ia = new AStar(b,0);
 
 function setup() {
   createCanvas(screen.width, screen.height);
-  document.addEventListener("keypress", (event) => {
-    if (event.key == "Enter") {
-      if (b.targetsPlaced()) {
-        ia.weightAStar(1,1);
-      }
-    } else if (event.key == "r") {
-      b.initStates();
-    } else if (event.key == "Delete") {
-      b.resetGrid();
-    }
-  });
 }
 
 function draw() {
@@ -58,6 +46,18 @@ function draw() {
       }
       rect(i*tileSize, j*tileSize, tileSize, tileSize);
       fill(255);
+    }
+  }
+}
+
+function keyPressed() {
+  if (key == "r") {
+    b.initStates();
+  } else if (key == "Delete") {
+    b.resetGrid();
+  } else if (key == "Enter") {
+    if (b.targetsPlaced()) {
+      ia.weightAStar(1,1);
     }
   }
 }

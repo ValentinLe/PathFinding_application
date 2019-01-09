@@ -179,7 +179,6 @@ class Board {
       this.goalTile = tile;
     }
     tile.setWall(false);
-    tile.setTarget(true);
   }
 
   removeTarget(tile) {
@@ -188,7 +187,6 @@ class Board {
     } else if (this.goalTile && tile.equals(this.goalTile)) {
       this.goalTile = null;
     }
-    tile.setTarget(false);
   }
 
   isTarget(tile) {
@@ -204,7 +202,7 @@ class Board {
   }
 
   isInIndex(x, y) {
-    return 0 <= x && x<this.width && 0 <=y && y<this.height;
+    return 0 <= x && x < this.width && 0 <= y && y < this.height;
   }
 
   tileInIndex(tile) {
