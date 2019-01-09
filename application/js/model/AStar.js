@@ -1,8 +1,5 @@
 
-import {PriorityQueue} from '../util/PriorityQueue.js';
-import {sleep} from '../util/sleep.js';
-
-export class AStar {
+class AStar {
   constructor(board, delay) {
     this.board = board;
     this.initTile = board.getInitTile();

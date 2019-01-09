@@ -1,5 +1,5 @@
 
-export class PriorityQueue {
+class PriorityQueue {
   constructor() {
     this.queue = [];
     this.length = 0;

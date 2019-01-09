@@ -1,7 +1,5 @@
 
-import {Tile} from './Tile.js';
-
-export class Board {
+class Board {
 
   constructor(width, height) {
     this.width = width;
@@ -142,8 +140,7 @@ export class Board {
 
   removeModificationAt(x, y) {
     let tile = this.getTileAt(x, y);
-    let isTarget = this.isTarget(tile);
-    if (isTarget) {
+    if (this.isTarget(tile)) {
       this.removeTarget(tile);
     } else {
       tile.setWall(false);

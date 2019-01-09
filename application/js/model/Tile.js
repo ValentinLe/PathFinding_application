@@ -1,5 +1,5 @@
 
-export class Tile {
+class Tile {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -77,7 +77,7 @@ export class Tile {
     if (this.wall) {
       return "#";
     } else if (this.target) {
-      return " ";
+      return "@";
     } else {
       return "" + (this.state==3 ? "." : this.state);
     }
