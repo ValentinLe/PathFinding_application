@@ -84,12 +84,24 @@ function keyPressed() {
         let solution = ia.weightAStar(1,1);
         pathDraw = true;
         if (!solution) {
-          showMessage("No solution found");
+          showMessage("Solution not found");
         }
       }
     } else {
       showMessage("The algorithm needs two targets")
     }
+  } else if (key == "w") {
+    if (pathDraw) {
+      b.initStates();
+      pathDraw = false;
+    }
+    b.placeRandowWall(0.1);
+  } else if (key == "x") {
+    if (pathDraw) {
+      b.initStates();
+      pathDraw = false;
+    }
+    b.deleteWalls();
   }
 }
 

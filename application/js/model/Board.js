@@ -214,6 +214,29 @@ class Board {
     return this.isInIndex(tile.getX(), tile.getY());
   }
 
+  placeRandowWall(proba) {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        if (Math.random() < proba) {
+          let tile = this.getTileAt(i, j);
+          tile.setWall(true);
+        }
+      }
+    }
+    // pour eviter de ne pas trouver de solutions dans l'algo
+    this.initTile.setWall(false);
+    this.goalTile.setWall(false);
+  }
+
+  deleteWalls() {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        let tile = this.getTileAt(i, j);
+        tile.setWall(false);
+      }
+    }
+  }
+
   // recupere les voisins dans la portée range de la case (x,y), si withWall = true
   // alors on a tous les voisins sinon on a que les voisins qui ne sont pas des murs
   consvois(x, y, range, withWall) {
