@@ -62,7 +62,7 @@ function keyPressed() {
         showMessage("No solution found");
       }
     } else {
-      showMessage("The algorithme needs two targets")
+      showMessage("The algorithm needs two targets")
     }
   }
 }
