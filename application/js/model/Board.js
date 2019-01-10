@@ -145,6 +145,7 @@ class Board {
         this.addTarget(tile);
       } else {
         this.changeTarget();
+        console.log("ok");
       }
     } else if (!isTarget) {
       tile.setWall(true);
@@ -193,7 +194,7 @@ class Board {
     return (this.initTile && tile.equals(this.initTile)) || (this.goalTile && tile.equals(this.goalTile));
   }
 
-  targetInPosition(x, y) {
+  targetAt(x, y) {
     return this.isTarget(this.getTileAt(x, y));
   }
 
@@ -223,6 +224,28 @@ class Board {
           let tile = this.grid[j][i];
           if (x != i && y != j && withWall || !tile.isWall()) {
             neighbors.push(tile);
+          }
+        }
+      }
+    }
+    return neighbors;
+  }
+
+  convoisWithoutCrossWallInDiagonal(x, y, range, withWall) {
+    let neighbors = this.consvois(x, y, range, withWall);
+    if (!withWall) {
+      for (let i = 0; i < neighbors.length; i++) {
+        let tile = neighbors[i];
+        let tx = tile.getX();
+        let ty = tile.getY();
+        if (tx != x && ty != y) {
+          // si c'est une diagonale
+          // les cases entre la diagonale en (i+1,j) et (i,j+1) par exemple
+          let firstTile = this.getTileAt(tx, y);
+          let secondTile = this.getTileAt(x, ty);
+          if (firstTile.isWall() && secondTile.isWall()) {
+            // si elles sont toutes les deux des murs on enleve la case du voisinage
+            neighbors.splice(i, 1);
           }
         }
       }

@@ -1,7 +1,8 @@
 
-let b = new Board(20,10);
+let b = new Board(50,25);
 let ia = new AStar(b,0);
 let changeTarget = false;
+let pathDraw = false;
 
 function setup() {
   createCanvas(screen.width, screen.height);
@@ -17,18 +18,27 @@ function draw() {
       if (b.statesChanged) {
         b.initStates();
         b.statesChanged = false;
+        pathDraw = false;
       }
       if (mouseButton == LEFT) {
-        if (b.targetInPosition(x, y)) {
+        if (b.targetAt(x, y)) {
           if (!changeTarget) {
             changeTarget = true;
             b.addModificationAt(x, y);
             setTimeout(() => {
               changeTarget = false;
-            },100);
+            },200);
           }
         } else {
-          b.addModificationAt(x, y);
+          if (!changeTarget) {
+            b.addModificationAt(x, y);
+          }
+          if (b.targetAt(x, y)) {
+            changeTarget = true;
+            setTimeout(() => {
+              changeTarget = false;
+            },200);
+          }
         }
       } else if (mouseButton == RIGHT) {
         b.removeModificationAt(x, y);
@@ -64,13 +74,18 @@ function draw() {
 function keyPressed() {
   if (key == "r") {
     b.initStates();
+    pathDraw = false;
   } else if (key == "Delete") {
     b.resetGrid();
+    pathDraw = false;
   } else if (key == "Enter") {
     if (b.targetsPlaced()) {
-      let solution = ia.weightAStar(1,1);
-      if (!solution) {
-        showMessage("No solution found");
+      if (!pathDraw) {
+        let solution = ia.weightAStar(1,1);
+        pathDraw = true;
+        if (!solution) {
+          showMessage("No solution found");
+        }
       }
     } else {
       showMessage("The algorithm needs two targets")

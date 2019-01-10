@@ -39,7 +39,7 @@ class AStar {
       if (tile.equals(this.getGoalTile())) {
         return this.getPlan(father, tile);
       } else {
-        let neighbors = this.board.consvois(tile.getX(), tile.getY(), 1, false);
+        let neighbors = this.board.convoisWithoutCrossWallInDiagonal(tile.getX(), tile.getY(), 1, false);
         for (let i = 0; i<neighbors.length; i++) {
           let next = neighbors[i];
           if (!(this.tileInMap(distance, next))) {
