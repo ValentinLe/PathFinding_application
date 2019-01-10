@@ -193,6 +193,10 @@ class Board {
     return (this.initTile && tile.equals(this.initTile)) || (this.goalTile && tile.equals(this.goalTile));
   }
 
+  targetInPosition(x, y) {
+    return this.isTarget(this.getTileAt(x, y));
+  }
+
   justOneTargetPlaced() {
     return (this.initTile && !this.goalTile) || (!this.initTile && this.goalTile);
   }

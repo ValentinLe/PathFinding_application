@@ -1,6 +1,7 @@
 
 let b = new Board(20,10);
 let ia = new AStar(b,0);
+let changeTarget = false;
 
 function setup() {
   createCanvas(screen.width, screen.height);
@@ -18,7 +19,17 @@ function draw() {
         b.statesChanged = false;
       }
       if (mouseButton == LEFT) {
-        b.addModificationAt(x, y);
+        if (b.targetInPosition(x, y)) {
+          if (!changeTarget) {
+            changeTarget = true;
+            b.addModificationAt(x, y);
+            setTimeout(() => {
+              changeTarget = false;
+            },100);
+          }
+        } else {
+          b.addModificationAt(x, y);
+        }
       } else if (mouseButton == RIGHT) {
         b.removeModificationAt(x, y);
       }
