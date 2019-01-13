@@ -64,6 +64,14 @@ class Tile {
     return Math.abs(o.getY() - this.getY()) + Math.abs(o.getX() - this.getX());
   }
 
+  diagonalDistance(o) {
+    let dx = Math.abs(this.x - o.getX());
+    let dy = Math.abs(this.y - o.getY());
+    let line = 1;
+    let diagonal = 2;
+    return line * (dx + dy) + (diagonal - 2*line) * Math.min(dx,dy);
+  }
+
   toStringGrid() {
     if (this.wall) {
       return "#";

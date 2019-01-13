@@ -21,7 +21,11 @@ class AStar {
     return this.board.goalTile;
   }
 
-  weightAStar(moveCost, weight) {
+  solution() {
+    return this.weightAStar(5);
+  }
+
+  weightAStar(weight) {
     let open = new PriorityQueue();
     open.add(this.getInitTile());
     let distance = new Map(); // tile : int
@@ -39,16 +43,17 @@ class AStar {
       if (tile.equals(this.getGoalTile())) {
         return this.getPlan(father, tile);
       } else {
-        let neighbors = this.board.convoisWithoutCrossWallInDiagonal(tile.getX(), tile.getY(), 1, false);
+        let neighbors = this.board.consvois(tile.getX(), tile.getY(), 1, false, false);
         for (let i = 0; i<neighbors.length; i++) {
           let next = neighbors[i];
           if (!(this.tileInMap(distance, next))) {
             next.setState(1);
             distance.set(next, Number.MAX_VALUE);
           }
+          let moveCost = 1;
           if (distance.get(next) > distance.get(tile) + moveCost) {
             distance.set(next, distance.get(tile) + moveCost);
-            next.setValue(distance.get(next) + weight * next.distance(this.getGoalTile()));
+            next.setValue(distance.get(next) + weight * next.diagonalDistance(this.getGoalTile()));
             father.set(next, tile);
             open.add(next);
           }

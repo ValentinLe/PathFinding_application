@@ -239,13 +239,13 @@ class Board {
 
   // recupere les voisins dans la portée range de la case (x,y), si withWall = true
   // alors on a tous les voisins sinon on a que les voisins qui ne sont pas des murs
-  consvois(x, y, range, withWall) {
+  consvois(x, y, range, diagonal, withWall) {
     let neighbors = [];
     for (let j = y-range; j<(y + range + 1); j++) {
       for (let i = x-range; i<(x + range + 1); i++) {
         if (this.isInIndex(i,j)) {
-          let tile = this.grid[j][i];
-          if (x != i && y != j && withWall || !tile.isWall()) {
+          let tile = this.getTileAt(i, j);
+          if (this.isTileAccepted(tile, x, y, diagonal, withWall)) {
             neighbors.push(tile);
           }
         }
@@ -254,26 +254,23 @@ class Board {
     return neighbors;
   }
 
-  convoisWithoutCrossWallInDiagonal(x, y, range, withWall) {
-    let neighbors = this.consvois(x, y, range, withWall);
-    if (!withWall) {
-      for (let i = 0; i < neighbors.length; i++) {
-        let tile = neighbors[i];
-        let tx = tile.getX();
-        let ty = tile.getY();
-        if (tx != x && ty != y) {
-          // si c'est une diagonale
-          // les cases entre la diagonale en (i+1,j) et (i,j+1) par exemple
-          let firstTile = this.getTileAt(tx, y);
-          let secondTile = this.getTileAt(x, ty);
-          if (firstTile.isWall() && secondTile.isWall()) {
-            // si elles sont toutes les deux des murs on enleve la case du voisinage
-            neighbors.splice(i, 1);
-          }
-        }
-      }
-    }
-    return neighbors;
+  isTileAccepted(tile, x, y, diagonal, withWall) {
+    let tx = tile.getX();
+    let ty = tile.getY();
+    let testTileXY = x != tx || y != ty;
+    let testCrossWall = diagonal || this.tileCanGoToOtherTile(tile, this.getTileAt(x,y));
+    let testWallTile = withWall || !tile.isWall();
+    return testTileXY && testCrossWall && testWallTile;
+  }
+
+  tileCanGoToOtherTile(tile, otherTile) {
+    let tx = tile.getX();
+    let ty = tile.getY();
+    let ox = otherTile.getX();
+    let oy = otherTile.getY();
+    let firstTile = this.getTileAt(tx, oy);
+    let secondTile = this.getTileAt(ox, ty);
+    return !(tx != ox && ty != oy && firstTile.isWall() && secondTile.isWall());
   }
 
   toString() {
