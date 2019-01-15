@@ -3,30 +3,34 @@ let b = new Board(50,26);
 let ia = new AStar(b,0);
 let changeTarget = false;
 let pathDraw = false;
+let tileSize = 30;
 
 function setup() {
   createCanvas(screen.width, screen.height);
+  b.setWidth(findWidthBoard());
+  b.setHeight(findHeightBoard());
 }
 
 function draw() {
-  let tileSize = findTileSize();
   background(0);
+  b.setWidth(findWidthBoard());
+  b.setHeight(findHeightBoard());
   if (mouseIsPressed) {
-    mousePressed(tileSize);
+    mousePressed();
   }
-  paintGrid(tileSize);
+  paintGrid();
 }
 
-function paintGrid(tileSize) {
+function paintGrid() {
   for (let j = 0; j < b.getHeight(); j++) {
     for (let i = 0; i < b.getWidth(); i++) {
       let tile = b.getTileAt(i, j);
-      paintTile(tile, tileSize);
+      paintTile(tile);
     }
   }
 }
 
-function paintTile(tile, tileSize) {
+function paintTile(tile) {
   let x = tile.getX();
   let y = tile.getY();
   if (b.isTarget(tile) && b.initTile && b.initTile.equals(tile)) {
@@ -49,7 +53,7 @@ function paintTile(tile, tileSize) {
   rect(x*tileSize, y*tileSize, tileSize, tileSize);
 }
 
-function mousePressed(tileSize) {
+function mousePressed() {
   let x = Math.floor(mouseX/tileSize);
   let y = Math.floor(mouseY/tileSize);
   if (b.isInIndex(x, y)) {
@@ -81,6 +85,22 @@ function mousePressed(tileSize) {
     } else if (mouseButton == RIGHT) {
       b.removeModificationAt(x, y);
     }
+  }
+}
+
+function mouseWheel(event) {
+  addTileSize(event.delta);
+}
+
+function addTileSize(number) {
+  let minSize = 20;
+  let maxSize = 50;
+  if (tileSize + number < minSize) {
+    tileSize = minSize;
+  } else if (tileSize + number > maxSize) {
+    tileSize = maxSize;
+  } else {
+    tileSize += number;
   }
 }
 
@@ -122,4 +142,12 @@ function findTileSize() {
   let valX = Math.floor(windowWidth/b.getWidth());
   let valY = Math.floor(windowHeight/b.getHeight());
   return Math.min(valX,valY);
+}
+
+function findWidthBoard() {
+  return Math.floor(windowWidth/tileSize) + 1;
+}
+
+function findHeightBoard() {
+  return Math.floor(windowHeight/tileSize) + 1;
 }

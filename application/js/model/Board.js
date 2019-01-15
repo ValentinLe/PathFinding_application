@@ -15,16 +15,8 @@ class Board {
     return this.width;
   }
 
-  setWidth(width) {
-    this.width = width;
-  }
-
   getHeight() {
     return this.height;
-  }
-
-  setHeight(height) {
-    this.height = height;
   }
 
   getInitTile() {
@@ -57,10 +49,20 @@ class Board {
   removeColumn(nbColumn) {
     for (let j = 0; j < this.height; j++) {
       for (let i = this.width; i >= (this.width - nbColumn); i--) {
+        this.removeTargetAtColumn(i);
         this.grid[j].splice(i, 1);
       }
     }
     this.width -= nbColumn;
+  }
+
+  removeTargetAtColumn(x) {
+    if (this.initTile && this.initTile.getX() == x) {
+      this.initTile = null;
+    }
+    if (this.goalTile && this.goalTile.getX() == x) {
+      this.goalTile = null;
+    }
   }
 
   setHeight(newHeight) {
@@ -86,9 +88,19 @@ class Board {
 
   removeLine(nbLine) {
     for (let h = this.height; h >= (this.height - nbLine); h--) {
+      this.removeTargetAtLine(h);
       this.grid.splice(h, 1);
     }
     this.height -= nbLine;
+  }
+
+  removeTargetAtLine(y) {
+    if (this.initTile && this.initTile.getY() == y) {
+      this.initTile = null;
+    }
+    if (this.goalTile && this.goalTile.getY() == y) {
+      this.goalTile = null;
+    }
   }
 
   initGrid(width, height) {
@@ -223,7 +235,8 @@ class Board {
         }
       }
     }
-    // pour eviter de ne pas trouver de solutions dans l'algo
+    // pour eviter que les cibles ne soit pas des murs et donc de ne pas trouver
+    // de solutions dans l'algo
     this.initTile.setWall(false);
     this.goalTile.setWall(false);
   }
