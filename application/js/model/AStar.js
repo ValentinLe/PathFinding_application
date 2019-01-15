@@ -1,16 +1,7 @@
 
 class AStar {
-  constructor(board, delay) {
+  constructor(board) {
     this.board = board;
-    this.delay = delay;
-  }
-
-  getDelay() {
-    return this.delay;
-  }
-
-  setDelay(delay) {
-    this.delay = delay;
   }
 
   getInitTile() {
@@ -37,9 +28,6 @@ class AStar {
       let tile = open.remove();
       tile.setState(2);
       this.board.statesChanged = true;
-      if (this.delay != 0) {
-        sleep(this.delay);
-      }
       if (tile.equals(this.getGoalTile())) {
         return this.getPlan(father, tile);
       } else {

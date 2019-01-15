@@ -1,8 +1,7 @@
 
 let b = new Board(50,26);
-let ia = new AStar(b,0);
+let ia = new AStarStepByStep(b);
 let changeTarget = false;
-let pathDraw = false;
 let tileSize = 30;
 
 function setup() {
@@ -19,6 +18,9 @@ function draw() {
     mousePressed();
   }
   paintGrid();
+  if (b.targetsPlaced()) {
+    ia.nextStep();
+  }
 }
 
 function paintGrid() {
@@ -57,10 +59,10 @@ function mousePressed() {
   let x = Math.floor(mouseX/tileSize);
   let y = Math.floor(mouseY/tileSize);
   if (b.isInIndex(x, y)) {
+    stopIa();
     if (b.statesChanged) {
       b.initStates();
       b.statesChanged = false;
-      pathDraw = false;
     }
     if (mouseButton == LEFT) {
       if (b.targetAt(x, y)) {
@@ -95,46 +97,45 @@ function mouseWheel(event) {
 function addTileSize(number) {
   let minSize = 20;
   let maxSize = 50;
-  if (tileSize + number < minSize) {
+  let res = tileSize + number;
+  if (res < minSize) {
     tileSize = minSize;
-  } else if (tileSize + number > maxSize) {
+  } else if (res > maxSize) {
     tileSize = maxSize;
   } else {
-    tileSize += number;
+    tileSize = res;
   }
+  b.initStates();
+  stopIa();
+}
+
+function stopIa() {
+  ia.askReset();
+  ia.setSearching(false);
 }
 
 function keyPressed() {
   if (key == "r") {
     b.initStates();
-    pathDraw = false;
+    stopIa();
   } else if (key == "Delete") {
     b.resetGrid();
-    pathDraw = false;
   } else if (key == "Enter") {
     if (b.targetsPlaced()) {
-      if (!pathDraw) {
-        let solution = ia.solution();
-        pathDraw = true;
-        if (!solution) {
-          showMessage("Solution not found");
-        }
+      if (ia.isSearching()) {
+        ia.setSearching(false);
+      } else {
+        ia.setSearching(true);
       }
-    } else {
-      showMessage("The algorithm needs two targets")
     }
   } else if (key == "w") {
-    if (pathDraw) {
-      b.initStates();
-      pathDraw = false;
-    }
+    b.initStates();
+    stopIa();
     b.placeRandowWall(0.1);
   } else if (key == "x") {
-    if (pathDraw) {
-      b.initStates();
-      pathDraw = false;
-    }
+    b.initStates();
     b.deleteWalls();
+    stopIa();
   }
 }
 

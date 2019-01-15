@@ -267,6 +267,10 @@ class Board {
     return neighbors;
   }
 
+  consvoisWithoutCrossAndWall(x, y, range) {
+    return this.consvois(x, y, range, false, false);
+  }
+
   isTileAccepted(tile, x, y, diagonal, withWall) {
     let tx = tile.getX();
     let ty = tile.getY();
