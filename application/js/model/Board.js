@@ -117,8 +117,7 @@ class Board {
     for (let j = 0; j < this.height; j++) {
       for (let i = 0; i < this.width; i++) {
         let tile = this.getTileAt(i, j);
-        tile.setWall(false);
-        tile.setState(0);
+        tile.resetTile();
       }
     }
     this.initTile = null;

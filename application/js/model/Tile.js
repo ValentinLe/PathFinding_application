@@ -3,7 +3,6 @@ class Tile {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    // variable si c'est un obstacle
     this.wall = false;
     this.value = Number.MAX_VALUE;
     this.state = 0;
@@ -53,6 +52,11 @@ class Tile {
     return this.getX()==o.getX() && this.getY()==o.getY();
   }
 
+  resetTile() {
+    this.wall = false;
+    this.value = Number.MAX_VALUE;
+    this.state = 0;
+  }
 
   // distance euclidienne entre 2 cases
   distance(o) {
@@ -68,7 +72,7 @@ class Tile {
     let dx = Math.abs(this.x - o.getX());
     let dy = Math.abs(this.y - o.getY());
     let line = 1;
-    let diagonal = 2;
+    let diagonal = Math.sqrt(2);
     return line * (dx + dy) + (diagonal - 2*line) * Math.min(dx,dy);
   }
 

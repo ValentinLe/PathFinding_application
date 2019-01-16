@@ -65,13 +65,17 @@ class AStarStepByStep {
             next.setState(1);
             this.distance.set(next, Number.MAX_VALUE);
           }
-          let moveCost = 1;
+          let moveCost =1;
           let weight = 1;
+          console.log("\ntile : " + tile + " = " + tile.value + "  " + "next : " + next + " = " + next.value);
           if (this.distance.get(next) > this.distance.get(tile) + moveCost) {
+            console.log("tileAccepted");
             this.distance.set(next, this.distance.get(tile) + moveCost);
             next.setValue(this.distance.get(next) + weight * next.diagonalDistance(this.getGoalTile()));
             this.father.set(next, tile);
             this.open.add(next);
+          } else {
+            console.log("tileDenied");
           }
         }
       }
@@ -89,7 +93,15 @@ class AStarStepByStep {
     return false;
   }
 
+  costTo(tileStart, tileEnd) {
+    if (tileStart.getX() != tileEnd.getY() && tileStart.getY() != tileEnd.getY()) {
+      return Math.sqrt(2);
+    }
+    return 1;
+  }
+
   getPlan() {
+    console.log(this.distance);
     let plan = [];
     let goal = this.getGoalTile();
     while (goal != null) {
