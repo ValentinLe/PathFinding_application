@@ -127,6 +127,8 @@ function keyPressed() {
       } else {
         ia.setSearching(true);
       }
+    } else {
+      showMessage("The algorithm needs two targets");
     }
   } else if (key == "w") {
     b.initStates();

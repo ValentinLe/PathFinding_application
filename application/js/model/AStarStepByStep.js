@@ -81,6 +81,7 @@ class AStarStepByStep {
       }
     } else {
       this.searching = false;
+      showMessage("No solution found");
     }
   }
 
