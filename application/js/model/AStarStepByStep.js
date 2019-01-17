@@ -65,7 +65,7 @@ class AStarStepByStep {
             next.setState(1);
             this.distance.set(next, Number.MAX_VALUE);
           }
-          let moveCost =1;
+          let moveCost = 1;
           let weight = 1;
           console.log("\ntile : " + tile + " = " + tile.value + "  " + "next : " + next + " = " + next.value);
           if (this.distance.get(next) > this.distance.get(tile) + moveCost) {

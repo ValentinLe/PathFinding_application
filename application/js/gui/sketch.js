@@ -148,9 +148,9 @@ function findTileSize() {
 }
 
 function findWidthBoard() {
-  return Math.floor(windowWidth/tileSize) + 1;
+  return Math.floor(windowWidth/tileSize);
 }
 
 function findHeightBoard() {
-  return Math.floor(windowHeight/tileSize) + 1;
+  return Math.floor(windowHeight/tileSize);
 }

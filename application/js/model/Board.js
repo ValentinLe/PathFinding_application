@@ -1,91 +1,167 @@
 
+/** Classe representant la grille */
 class Board {
-
+  /**
+   * Construit une grille
+   * @param {int} width la largeur de la grille
+   * @param {int} height la hauteur de la grille
+   */
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    // construction de la grille
     this.grid = [];
     this.initGrid(width, height);
+    // les targets
     this.initTile = null;
     this.goalTile = null;
+
     this.statesChanged = false;
   }
 
+  /**
+   * Getter sur la largeur de la grille
+   * @return {int} la largeur de la grille
+   */
   getWidth() {
     return this.width;
   }
 
+  /**
+   * Getter sur la hauteur de la grille
+   * @return {int} la hauteur de la grille
+   */
   getHeight() {
     return this.height;
   }
 
+  /**
+   * Getter de la cible de depart
+   * @return {Tile} la case de depart
+   */
   getInitTile() {
     return this.initTile;
   }
 
+  /**
+   * Getter sur la cible d'arrivee
+   * @return {Tile} la case d'arrivee
+   */
   getGoalTile() {
     return this.goalTile;
   }
 
+  /**
+   * Setter sur la largeur de la grille (avec gestion du redimentionnement de la grille)
+   * @param {int} newWidth la nouvelle largeur de la grille
+   */
   setWidth(newWidth) {
     if (this.width != newWidth) {
+      // si la largeur a changee
       if (this.width < newWidth) {
+        // si la nouvelle largeur est plus grande que l'ancienne on ajoute le nombre
+        // de collonnes necessaires
         this.addColumn(newWidth - this.width);
       } else {
+        // sinon on supprime le nombre de colonnes necessaires
         this.removeColumn(this.width - newWidth);
       }
     }
   }
 
+  /**
+   * Ajoute un nombre de colonnes donnees a la grille
+   * @param {int} nbColumn le nombre de colonnes a ajoutees avec 0 < nbColumn
+   */
   addColumn(nbColumn) {
-    for (let j = 0; j < this.height; j++) {
-      for (let i = this.width; i < (this.width + nbColumn); i++) {
-        this.grid[j][i] = new Tile(i, j);
+    if (nbColumn > 0) {
+      for (let j = 0; j < this.height; j++) {
+        // pour j parcourant la hauteur
+        for (let i = this.width; i < (this.width + nbColumn); i++) {
+          // pour i partant de la largeur et faisant nbColumn iterations
+          this.grid[j][i] = new Tile(i, j);
+        }
       }
+      // /!\ modification de la largeur de la grille apres avoir cree les cases /!\
+      this.width += nbColumn;
     }
-    this.width += nbColumn;
   }
 
+  /**
+   * Supprime un nombre de colonnes donnee a la grille
+   * @param {int} nbColumn le nombre de colonnes a supprimees avec 0 < nbColumn
+   */
   removeColumn(nbColumn) {
-    for (let j = 0; j < this.height; j++) {
-      for (let i = this.width; i >= (this.width - nbColumn); i--) {
-        this.removeTargetAtColumn(i);
-        this.grid[j].splice(i, 1);
+    if (nbColumn > 0) {
+      for (let j = 0; j < this.height; j++) {
+        // pour j parcourant la hauteur
+        for (let i = this.width; i >= (this.width - nbColumn); i--) {
+          // pour i partant de la largeur et faisant nbColumn iterations en decrementant
+          this.removeTargetAtColumn(i);
+          this.grid[j].splice(i, 1);
+        }
       }
+      // /!\ modification de la largeur de la grille apres avoir cree les cases /!\
+      this.width -= nbColumn;
     }
-    this.width -= nbColumn;
   }
 
-  removeTargetAtColumn(x) {
-    if (this.initTile && this.initTile.getX() == x) {
+  /**
+   * Supprime la ou les cibles si elles sont présente dans la colonnes
+   * @param {int} column la collonne voulue
+   */
+  removeTargetAtColumn(column) {
+    if (this.initTile && this.initTile.getX() == column) {
       this.initTile = null;
     }
-    if (this.goalTile && this.goalTile.getX() == x) {
+    if (this.goalTile && this.goalTile.getX() == column) {
       this.goalTile = null;
     }
   }
 
+  /**
+   * Setter sur la hauteur de la grille (avec gestion du redimentionnement de la grille)
+   * @param {int} newHeight la nouvelle hauteur de la grille
+   */
   setHeight(newHeight) {
     if (this.height != newHeight) {
+      // si la hauteur a changee
       if (this.height < newHeight) {
+        // si la nouvelle hauteur est plus grande que l'ancienne on ajoute le nombre
+        // de lignes necessaires
         this.addLine(newHeight - this.height);
       } else {
+        // sinon on supprime le nombre de lignes necessaires
         this.removeLine(this.height - newHeight);
       }
     }
   }
 
+  /**
+   * Ajoute un nombre de lignes donnees a la grille
+   * @param {int} nbLine le nombre de lignes a ajoutees avec 0 < nbLine
+   */
   addLine(nbLine) {
-    for (let j = 0; j < nbLine; j++) {
-      let coordH = this.height + j;
-      this.grid[coordH] = [];
-      for (let i = 0; i < this.width; i++) {
-        this.grid[coordH][i] = new Tile(i, coordH);
+    if (nbLine > 0) {
+      for (let j = 0; j < nbLine; j++) {
+        // on itere que sur le nombre de lignes a ajoutees
+        // ajout du  tableau pour la ligne a ajoutee
+        let coordX = this.height + j;
+        this.grid[coordH] = [];
+        for (let i = 0; i < this.width; i++) {
+          // creation des cases a la ligne donnee en parcourant la largeur
+          this.grid[coordX][i] = new Tile(i, coordX);
+        }
       }
+      // /!\ modification de la hauteur de la grille apres avoir cree les cases /!\
+      this.height += nbLine;
     }
-    this.height += nbLine;
   }
 
+  /**
+   * Supprime un nombre de lignes donnees a la grille
+   * @param {int} nbLine le nombre de lignes a supprimees avec 0 < nbLine
+   */
   removeLine(nbLine) {
     for (let h = this.height; h >= (this.height - nbLine); h--) {
       this.removeTargetAtLine(h);
