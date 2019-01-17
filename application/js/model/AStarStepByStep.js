@@ -67,15 +67,15 @@ class AStarStepByStep {
           }
           let moveCost = 1;
           let weight = 1;
-          console.log("\ntile : " + tile + " = " + tile.value + "  " + "next : " + next + " = " + next.value);
+          //console.log("\ntile : " + tile + " = " + tile.value + "  " + "next : " + next + " = " + next.value);
           if (this.distance.get(next) > this.distance.get(tile) + moveCost) {
-            console.log("tileAccepted");
+            //console.log("tileAccepted");
             this.distance.set(next, this.distance.get(tile) + moveCost);
             next.setValue(this.distance.get(next) + weight * next.diagonalDistance(this.getGoalTile()));
             this.father.set(next, tile);
             this.open.add(next);
           } else {
-            console.log("tileDenied");
+            //console.log("tileDenied");
           }
         }
       }
@@ -102,7 +102,7 @@ class AStarStepByStep {
   }
 
   getPlan() {
-    console.log(this.distance);
+    //console.log(this.distance);
     let plan = [];
     let goal = this.getGoalTile();
     while (goal != null) {
