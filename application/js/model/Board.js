@@ -147,7 +147,7 @@ class Board {
         // on itere que sur le nombre de lignes a ajoutees
         // ajout du  tableau pour la ligne a ajoutee
         let coordX = this.height + j;
-        this.grid[coordH] = [];
+        this.grid[coordX] = [];
         for (let i = 0; i < this.width; i++) {
           // creation des cases a la ligne donnee en parcourant la largeur
           this.grid[coordX][i] = new Tile(i, coordX);
