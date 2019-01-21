@@ -4,7 +4,7 @@ class Tile {
   /**
    * Cree une case
    * @param {double} x la coordonnee en abscisse de la case
-   * @param {double} y la coordonne en ordonnee de la case
+   * @param {double} y la coordonnee en ordonnee de la case
    */
   constructor(x, y) {
     this.x = x;
