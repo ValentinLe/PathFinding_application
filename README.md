@@ -2,6 +2,8 @@
 
 This application is a visualization of the A* algorithm.
 
+![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/utilisation.gif)
+
 Controls :
 - Enter => start the path search or pauses the algorithm if it is running
 - Delete => Removes everything that is placed on the grid
