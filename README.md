@@ -2,7 +2,9 @@
 
 This application is a visualization of the A* algorithm.
 
-![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/utilisation.gif)
+![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/demo.gif)
+
+Open `application/index.html` with your browser to lunch this application.
 
 Controls :
 - Enter => start the path search or pauses the algorithm if it is running
