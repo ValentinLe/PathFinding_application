@@ -142,10 +142,12 @@ class Tile {
   diagonalDistance(o) {
     let dx = Math.abs(this.x - o.getX());
     let dy = Math.abs(this.y - o.getY());
+    let d = 8;
+    let d2 = 4;
     if (dx > dy) {
-      return 14 * dy + 10 * (dx - dy);
+      return d * dy + d2 * (dx - dy);
     } else {
-      return 14 * dx + 10 * (dy - dx);
+      return d * dx + d2 * (dy - dx);
     }
   }
 
