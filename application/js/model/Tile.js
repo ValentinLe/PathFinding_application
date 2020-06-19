@@ -142,9 +142,11 @@ class Tile {
   diagonalDistance(o) {
     let dx = Math.abs(this.x - o.getX());
     let dy = Math.abs(this.y - o.getY());
-    let line = 1;
-    let diagonal = Math.sqrt(2);
-    return line * (dx + dy) + (diagonal - 2*line) * Math.min(dx,dy);
+    if (dx > dy) {
+      return 14 * dy + 10 * (dx - dy);
+    } else {
+      return 14 * dx + 10 * (dy - dx);
+    }
   }
 
   /**

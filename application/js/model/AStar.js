@@ -17,7 +17,7 @@ class AStar {
   }
 
   weightAStar(weight) {
-    let open = new PriorityQueue();
+    let open = new PriorityQueue(this.getGoalTile());
     open.add(this.getInitTile());
     let distance = new Map(); // tile : int
     this.getInitTile().setValue(0);

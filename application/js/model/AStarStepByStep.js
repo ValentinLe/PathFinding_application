@@ -8,7 +8,7 @@ class AStarStepByStep {
   }
 
   reset() {
-    this.open = new PriorityQueue();
+    this.open = new PriorityQueue(this.getGoalTile());
     this.open.add(this.getInitTile());
     this.distance = new Map();
     this.getInitTile().setValue(0);
@@ -65,13 +65,12 @@ class AStarStepByStep {
             next.setState(1);
             this.distance.set(next, Number.MAX_VALUE);
           }
-          let moveCost = this.costTo(tile, next);
-          let weight = 1;
+          let moveCost = tile.diagonalDistance(next);
           //console.log("\ntile : " + tile + " = " + tile.value + "  " + "next : " + next + " = " + next.value);
           if (this.distance.get(next) > this.distance.get(tile) + moveCost) {
             //console.log("tileAccepted");
             this.distance.set(next, this.distance.get(tile) + moveCost);
-            next.setValue(this.distance.get(tile) + weight * next.diagonalDistance(this.getGoalTile()));
+            next.setValue(this.distance.get(tile) + next.diagonalDistance(this.getGoalTile()));
             this.father.set(next, tile);
             this.open.add(next);
           } else {

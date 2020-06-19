@@ -1,8 +1,9 @@
 
 class PriorityQueue {
-  constructor() {
+  constructor(goalTile) {
     this.queue = [];
     this.length = 0;
+    this.goalTile = goalTile;
   }
 
   // test si la queue est vide
@@ -23,7 +24,9 @@ class PriorityQueue {
     } else {
       let len = this.length ++;
       for (let i = 0; i < len; i++) {
-        if (element.getValue() < this.queue[i].getValue()) {
+        let curr_tile = this.queue[i];
+        if (element.getValue() < curr_tile.getValue() ||
+            (element.equals(curr_tile) && element.diagonalDistance(this.goalTile) < curr_tile.diagonalDistance(this.goalTile))) {
           this.queue.splice(i, 0, element);
           return;
         }
