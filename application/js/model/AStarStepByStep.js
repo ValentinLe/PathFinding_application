@@ -65,13 +65,13 @@ class AStarStepByStep {
             next.setState(1);
             this.distance.set(next, Number.MAX_VALUE);
           }
-          let moveCost = 1;
+          let moveCost = this.costTo(tile, next);
           let weight = 1;
           //console.log("\ntile : " + tile + " = " + tile.value + "  " + "next : " + next + " = " + next.value);
           if (this.distance.get(next) > this.distance.get(tile) + moveCost) {
             //console.log("tileAccepted");
             this.distance.set(next, this.distance.get(tile) + moveCost);
-            next.setValue(this.distance.get(next) + weight * next.diagonalDistance(this.getGoalTile()));
+            next.setValue(this.distance.get(tile) + weight * next.diagonalDistance(this.getGoalTile()));
             this.father.set(next, tile);
             this.open.add(next);
           } else {
@@ -102,7 +102,6 @@ class AStarStepByStep {
   }
 
   getPlan() {
-    //console.log(this.distance);
     let plan = [];
     let goal = this.getGoalTile();
     while (goal != null) {
