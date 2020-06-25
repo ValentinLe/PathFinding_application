@@ -3,7 +3,7 @@
 This application is a visualization of the A* algorithm.
 
 <div align="center">
-![](screenshots/demo.gif)
+![](demo.gif)
 </div>
 
 Open `application/index.html` with your browser to launch this application.
