@@ -3,8 +3,9 @@
 This application is a visualization of the A* algorithm.
 
 <div align="center">
-![](demo.gif)
+![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/demo.gif)
 </div>
+![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/demo.gif)
 
 Open `application/index.html` with your browser to launch this application.
 
