@@ -2,10 +2,7 @@
 
 This application is a visualization of the A* algorithm.
 
-<div align="center">
-![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/demo.gif)
-</div>
-![demo](https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/demo.gif)
+<img src="https://github.com/ValentinLe/PathFinding_application/blob/master/screenshots/demo.gif" align="center" alt="demo">
 
 Open `application/index.html` with your browser to launch this application.
 
